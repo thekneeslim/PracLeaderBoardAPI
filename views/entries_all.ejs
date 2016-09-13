@@ -4,20 +4,24 @@
   <meta charset="utf-8">
   <title>LeaderBoard_all</title>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-  <script type="text/javascript"> src="../main.js"</script>
 </head>
+
+<style>
+  table {
+    background-color: orange;
+    height: 50px;
+    width: 50px;
+  }
+</style>
+
 <body>
 
   <h1>All Scores</h1>
 
-  <p>
-    <a href="/LeaderBoard/new">Add a new Score</a>
-  </p>
-
-  <div class="Score">
-
+  <div class="score">
+    <table id="table" border='1'></table>
   </div>
 
-
+    <script src="/main.js"></script>
   </body>
   </html>

@@ -8,8 +8,10 @@ var app = express();
 app.use(methodOverride('_method'));
 app.set('view engine', 'ejs');
 
-var staticPath = path.join(__dirname, 'static');
-app.use(express.static(staticPath));
+// var staticPath = path.join(__dirname, 'static');
+// app.use(express.static(staticPath));
+app.use(express.static('static'))
+
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
@@ -50,7 +52,7 @@ app.get("/entries", function(req, res) {
 
 app.get("/entries/:id", function(req, res) {
   var entry = checkArray(req.params.id);
-  res.json(entry);
+  res.render("entries_edit", {entry: entry});
 });
 
 // UPDATE
