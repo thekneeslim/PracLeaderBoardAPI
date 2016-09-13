@@ -18,7 +18,8 @@ app.use(bodyParser.urlencoded({
 
 var entries = [
   {id: "dexter", name: 'Dexter', score: 30, initial: "dex"},
-  {id: "denise", name: 'Denise', score: 10, initial: "dl"}
+  {id: "denise", name: 'Denise', score: 10, initial: "dl"},
+  {id: "denise", name: 'Denise', score: 10, initial: "dl"},
 ]
 
 // HOMEPAGE
@@ -50,7 +51,7 @@ app.get("/entries", function(req, res) {
 
 app.get("/entries/:id", function(req, res) {
   var entry = checkArray(req.params.id);
-  res.render("entries_edit", {entry: entry});
+  res.render('entries_all');
 });
 
 // UPDATE
