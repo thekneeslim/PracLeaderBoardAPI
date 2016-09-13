@@ -11,21 +11,20 @@ document.addEventListener("DOMContentLoaded", function() {
 
     if (data.length === 0) {
       $(".score").append("<p>").append("NO HIGHSCORES FOUND!!!");
+
     } else {
       for (var i = 0; i < data.length; i++) {
-          var tr = $('<tr>');
+        console.log(data[i]);
 
-          $("#table").append("<tr>").append("<td>").append("data[i].name");
-          tr.append("data[i].score");
-          tr.append("data[i].initial");
+        var row = $('#mainTable').append('<tr>');
+
+        for (key in data[i]) {
+          var column = $(row).append('<td>').text(data[i][key])
+          // column.text(data[i][key]);
+          // console.log(data[i][key])
+        }
       }
     }
-    $.fail(function () {
-      console.log('error')
-    })
-    $.always(function () {
-      console.log('complete')
-    })
   })
 });
 

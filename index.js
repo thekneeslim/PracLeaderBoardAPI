@@ -8,10 +8,8 @@ var app = express();
 app.use(methodOverride('_method'));
 app.set('view engine', 'ejs');
 
-// var staticPath = path.join(__dirname, 'static');
-// app.use(express.static(staticPath));
-app.use(express.static('static'))
-
+var staticPath = path.join(__dirname, 'static');
+app.use(express.static(staticPath));
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
@@ -19,8 +17,8 @@ app.use(bodyParser.urlencoded({
 }));
 
 var entries = [
-  {id: "dexter", name: 'Dexter', score: 30},
-  {id: "denise", name: 'Denise', score: 10}
+  {id: "dexter", name: 'Dexter', score: 30, initial: "dex"},
+  {id: "denise", name: 'Denise', score: 10, initial: "dl"}
 ]
 
 // HOMEPAGE
