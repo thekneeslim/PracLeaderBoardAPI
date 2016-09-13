@@ -33,9 +33,6 @@ app.get("/entries/new", function(req, res) {
 });
 
 app.post("/entries", function(req, res) {
-
-var id = "EX000" + entries.length;
-  // create the new entry
   var entry = {
     id: req.body.name,
     name: req.body.name,
@@ -43,8 +40,7 @@ var id = "EX000" + entries.length;
     initial: req.body.initial
   };
 
-  createEntry(entry);
-
+  entries.push(entry);
   res.redirect("/entries/" + entry.id);
 })
 
@@ -58,7 +54,7 @@ app.get("/entries/:id", function(req, res) {
   res.json(entry);
 });
 
-// UPDATE (this route accept info from the HTML form)
+// UPDATE
 app.put("/entries/:id", function(req, res) {
   var entry = checkArray(req.params.id);
   entry.id = req.params.id;
@@ -66,14 +62,14 @@ app.put("/entries/:id", function(req, res) {
   entry.score = req.body.score;
   entry.initial = req.body.initial;
 
-  res.redirect('/entries/' + entry.id);
+  res.redirect('/');
 });
 
 // DELETE
 app.delete("/entries/:id", function(req, res) {
   var entry = checkArray(req.body.id);
   deleteEntry(entry);
-  res.redirect("/entries");
+  res.redirect("/");
 });
 
 // ================== BREAK ==================
@@ -88,7 +84,7 @@ function checkArray(valuePassed) {
 
 function deleteEntry(id) {
   entries = entries.filter(function(apple) {
-  return entries.id !== id;
+    return entries.id !== id;
   })
 }
 
