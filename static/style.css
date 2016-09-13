@@ -1,6 +1,9 @@
 table {
   background-color: orange;
-  text-align: center;
+  margin: 0 auto;
 }
 
-body {background-color: pink}
+body {
+  background-color: pink;
+  text-align: center;
+}
