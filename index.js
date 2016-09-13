@@ -17,10 +17,14 @@ app.use(bodyParser.urlencoded({
   extended: true
 }));
 
+var entries = [
+  {name: 'Dexter', score: 30},
+  {name: 'Denise', score: 10}
+]
+
 // HOMEPAGE
 app.get("/", function(req, res) {
-  var leaderBoard = getLeaderBoards();
-  res.render('index', {consolLeaderBoard: leaderBoards.length});
+  res.json(entries);
 });
 
 // CREATE ENTRIES
@@ -30,10 +34,10 @@ app.get("/entries/new", function(req, res) {
 
 app.post("/entries", function(req, res) {
 
-var id = "EX000" + leaderBoards.length;
+var id = "EX000" + entries.length;
   // create the new entry
   var entry = {
-    id: id,
+    id: req.body.name,
     name: req.body.name,
     score: req.body.score,
     initial: req.body.initial
@@ -46,85 +50,46 @@ var id = "EX000" + leaderBoards.length;
 
 // READ
 app.get("/entries", function(req, res) {
-  var leaderBoards = getLeaderBoards();
-  res.render('entry_all', {entry: leaderBoards});
+  res.redirect('/');
 });
 
 app.get("/entries/:id", function(req, res) {
-  var entry = getLeaderBoard(req.params.id);
+  var entry = checkArray(req.params.id);
   res.json(entry);
 });
 
 // UPDATE (this route accept info from the HTML form)
 app.put("/entries/:id", function(req, res) {
-  var entry = getLeaderBoard(req.params.id);
+  var entry = checkArray(req.params.id);
   entry.id = req.params.id;
   entry.name = req.body.name;
   entry.score = req.body.score;
   entry.initial = req.body.initial;
-
-  editEntry(entry);
 
   res.redirect('/entries/' + entry.id);
 });
 
 // DELETE
 app.delete("/entries/:id", function(req, res) {
-  deleteEntry(req.params.id);
+  var entry = checkArray(req.body.id);
+  deleteEntry(entry);
   res.redirect("/entries");
 });
 
-
 // ================== BREAK ==================
 
-function getLeaderBoards() {
-  // Load the Leader Board list from a file.
-  var leaderBoardsJSON = fs.readFileSync('./entry.json');
-  leaderBoards = JSON.parse(leaderBoardsJSON);
-  return leaderBoards;
-}
-
-function getLeaderBoard(id) {
-  var leaderBoard = getLeaderBoards();
-
-  var entry = undefined;
-  for (var i = 0; i < products.length; i++) {
-    if (leaderBoard[i].id === id) {
-      entry = leaderBoard[i];
+function checkArray(valuePassed) {
+  for (var i = 0; i < entries.length; i++) {
+    if (entries[i].id === valuePassed) {
+      return entries[i];
     }
   }
-  return entry;
-}
-
-function createEntry(newEntry) {
-  var entry = getLeaderBoards();
-  entry.push(newEntry);
-
-  writeLeaderBoard(entry);
-}
-
-function writeLeaderBoard(entry) {
-  var json = JSON.stringify(entry);
-  fs.writeFileSync('./entry.json', json);
-}
-
-function editEntry(updatedInfo) {
-  var entry = getLeaderBoards();
-
-  var leaderBoard = undefined;
-  for (var i = 0; i < entry.length; i++) {
-    if (entry[i].id === updatedInfo.id) {
-      entry[i] = updatedInfo;
-    }
-  }
-  writeLeaderBoard(entry);
 }
 
 function deleteEntry(id) {
-  var entry = getLeaderBoards();
-  entry = entry.filter(function(entries) {
+  entries = entries.filter(function(apple) {
   return entries.id !== id;
   })
-writeProducts(entry);
 }
+
 app.listen(3000);
