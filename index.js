@@ -6,20 +6,13 @@ var methodOverride = require('method-override')
 
 var app = express();
 
-// override with POST having ?_method=DELETE
 app.use(methodOverride('_method'));
-
-// configure app to use ejs for templates
 app.set('view engine', 'ejs');
 
-// tell our server where our static files live.
 var staticPath = path.join(__dirname, 'static');
 app.use(express.static(staticPath));
 
-// to support JSON-encoded bodies
 app.use(bodyParser.json());
-
-// to support URL-encoded bodies
 app.use(bodyParser.urlencoded({
   extended: true
 }));
@@ -37,17 +30,18 @@ app.get("/entries/new", function(req, res) {
 
 app.post("/entries", function(req, res) {
 
-  // generating id and create the new entry
-
+var id = "EX000" + leaderBoards.length;
+  // create the new entry
   var entry = {
+    id: id,
     name: req.body.name,
     score: req.body.score,
     initial: req.body.initial
   };
 
-  createLeaderBoard(entry);
+  createEntry(entry);
 
-  res.redirect("/");
+  res.redirect("/entries/" + entry.id);
 })
 
 // READ
@@ -55,6 +49,33 @@ app.get("/entries", function(req, res) {
   var leaderBoards = getLeaderBoards();
   res.render('entry_all', {entry: leaderBoards});
 });
+
+app.get("/entries/:id", function(req, res) {
+  var entry = getLeaderBoard(req.params.id);
+  res.json(entry);
+});
+
+// UPDATE (this route accept info from the HTML form)
+app.put("/entries/:id", function(req, res) {
+  var entry = getLeaderBoard(req.params.id);
+  entry.id = req.params.id;
+  entry.name = req.body.name;
+  entry.score = req.body.score;
+  entry.initial = req.body.initial;
+
+  editEntry(entry);
+
+  res.redirect('/entries/' + entry.id);
+});
+
+// DELETE
+app.delete("/entries/:id", function(req, res) {
+  deleteEntry(req.params.id);
+  res.redirect("/entries");
+});
+
+
+// ================== BREAK ==================
 
 function getLeaderBoards() {
   // Load the Leader Board list from a file.
@@ -75,7 +96,7 @@ function getLeaderBoard(id) {
   return entry;
 }
 
-function createLeaderBoard(newEntry) {
+function createEntry(newEntry) {
   var entry = getLeaderBoards();
   entry.push(newEntry);
 
@@ -86,3 +107,24 @@ function writeLeaderBoard(entry) {
   var json = JSON.stringify(entry);
   fs.writeFileSync('./entry.json', json);
 }
+
+function editEntry(updatedInfo) {
+  var entry = getLeaderBoards();
+
+  var leaderBoard = undefined;
+  for (var i = 0; i < entry.length; i++) {
+    if (entry[i].id === updatedInfo.id) {
+      entry[i] = updatedInfo;
+    }
+  }
+  writeLeaderBoard(entry);
+}
+
+function deleteEntry(id) {
+  var entry = getLeaderBoards();
+  entry = entry.filter(function(entries) {
+  return entries.id !== id;
+  })
+writeProducts(entry);
+}
+app.listen(3000);
