@@ -1,9 +1,29 @@
 table {
-  background-color: orange;
   margin: 0 auto;
 }
 
 body {
   background-color: pink;
   text-align: center;
+}
+
+th {
+  width: 300px;
+}
+
+th, td {
+  padding: 15px 0;
+}
+
+/* NEW ENTRIES*/
+
+.inputDesign {
+  align: center;
+  margin: 20px;
+  font-size: 20px;
+}
+
+.inputBox {
+  padding: 10px;
+  font-size: 20px;
 }

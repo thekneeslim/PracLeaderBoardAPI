@@ -9,22 +9,23 @@ document.addEventListener("DOMContentLoaded", function() {
 
   $.get(url).done(function(data) {
 
-    if (data.length === 0) {
-      $(".score").append("<p>").append("NO HIGHSCORES FOUND!!!");
+    console.log(data.length)
+    $(".score").append("<table id='mainTable' border='1'></table>")
 
-    } else {
+    var tr = $('<tr/>');
+    tr.append("<th>" + "Name" + "</th>");
+    tr.append("<th>" + "Score" + "</th>");
+    tr.append("<th>" + "Initial" + "</th>");
+    tr.append("<th>" + "Edit" + "</th>");
+    $('table').append(tr);
 
-      var tr;
-      for (var i = 0; i < data.length; i++) {
-
-
-          tr = $('<tr/>');
-          tr.append("<td>" + data[i].name + "</td>");
-          tr.append("<td>" + data[i].score + "</td>");
-          tr.append("<td>" + data[i].initial + "</td>");
-          tr.append("<td>" + "<button type='button' class='removebutton' title='Remove this row'>X</button>" + "</td>");
-          $('table').append(tr);
-      }
+    for (var i = 0; i < data.length; i++) {
+      tr = $('<tr/>');
+      tr.append("<td>" + data[i].name + "</td>");
+      tr.append("<td>" + data[i].score + "</td>");
+      tr.append("<td>" + data[i].initial + "</td>");
+      tr.append("<td>" + "<button type='button' class='removebutton' title='Remove this row'>DELETE</button>" + "</td>");
+      $('table').append(tr);
     };
   })
 });
@@ -47,5 +48,6 @@ $("#addbutton").click(function () {
 
 $(document).on('click', 'button.removebutton', function () {
     $(this).closest('tr').remove();
+
     return false;
 });
