@@ -1,7 +1,6 @@
 var express = require('express');
 var path = require('path');
 var bodyParser = require('body-parser')
-var fs = require('fs');
 var methodOverride = require('method-override')
 
 var app = express();
@@ -18,8 +17,8 @@ app.use(bodyParser.urlencoded({
 }));
 
 var entries = [
-  {name: 'Dexter', score: 30},
-  {name: 'Denise', score: 10}
+  {id: "dexter", name: 'Dexter', score: 30},
+  {id: "denise", name: 'Denise', score: 10}
 ]
 
 // HOMEPAGE
@@ -46,7 +45,7 @@ app.post("/entries", function(req, res) {
 
 // READ
 app.get("/entries", function(req, res) {
-  res.redirect('/');
+  res.render('entries_all');
 });
 
 app.get("/entries/:id", function(req, res) {

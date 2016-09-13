@@ -6,8 +6,16 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://gist.github.com/c674e88e2b88cc660cf876885dffeaa0.git"
+  },
   "author": "",
   "license": "ISC",
+  "bugs": {
+    "url": "https://gist.github.com/c674e88e2b88cc660cf876885dffeaa0"
+  },
+  "homepage": "https://gist.github.com/c674e88e2b88cc660cf876885dffeaa0",
   "dependencies": {
     "ejs": "^2.5.2",
     "express": "^4.14.0",
